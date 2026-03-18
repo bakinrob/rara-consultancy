@@ -1,5 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import projectAtrium from '@/assets/project-atrium.jpg';
+import projectEskin from '@/assets/project-eskin.jpg';
+import projectBigdip from '@/assets/project-bigdip.jpg';
+import projectA2 from '@/assets/project-a2.jpg';
+import projectDetroit from '@/assets/project-detroit.jpg';
 
 const projects = [
   {
