@@ -2,112 +2,174 @@ import { useMemo, useRef, type MutableRefObject } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function ParticleField({ mouse }: { mouse: MutableRefObject<{ x: number; y: number }> }) {
-  const pointsRef = useRef<THREE.Points>(null);
-  const haloRef = useRef<THREE.Points>(null);
-  const ringGroupRef = useRef<THREE.Group>(null);
+function HelixRibbon({ mouse }: { mouse: MutableRefObject<{ x: number; y: number }> }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const strand1Ref = useRef<THREE.Points>(null);
+  const strand2Ref = useRef<THREE.Points>(null);
+  const connectorsRef = useRef<THREE.Points>(null);
+  const glowRef = useRef<THREE.Points>(null);
 
-  const corePositions = useMemo(() => {
-    const positions = new Float32Array(2200 * 3);
-    for (let i = 0; i < 2200; i++) {
-      const radius = 1.15 + Math.sin(i * 0.33) * 0.14 + (i % 11) * 0.003;
-      const angle = i * 0.16;
-      const lift = Math.sin(i * 0.12) * 0.62;
-      positions[i * 3] = Math.cos(angle) * radius;
-      positions[i * 3 + 1] = lift * 0.8;
-      positions[i * 3 + 2] = Math.sin(angle) * radius;
+  const STRAND_COUNT = 1200;
+  const CONNECTOR_COUNT = 200;
+  const GLOW_COUNT = 600;
+
+  const strand1Positions = useMemo(() => {
+    const pos = new Float32Array(STRAND_COUNT * 3);
+    for (let i = 0; i < STRAND_COUNT; i++) {
+      const t = (i / STRAND_COUNT) * Math.PI * 6;
+      const y = (i / STRAND_COUNT) * 6 - 3;
+      pos[i * 3] = Math.cos(t) * 0.8;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = Math.sin(t) * 0.8;
     }
-    return positions;
+    return pos;
   }, []);
 
-  const haloPositions = useMemo(() => {
-    const positions = new Float32Array(950 * 3);
-    for (let i = 0; i < 950; i++) {
-      const orbit = 1.85 + (i % 7) * 0.05;
-      const angle = i * 0.27;
-      positions[i * 3] = Math.cos(angle) * orbit;
-      positions[i * 3 + 1] = Math.sin(angle * 1.8) * 0.9;
-      positions[i * 3 + 2] = Math.sin(angle) * orbit;
+  const strand2Positions = useMemo(() => {
+    const pos = new Float32Array(STRAND_COUNT * 3);
+    for (let i = 0; i < STRAND_COUNT; i++) {
+      const t = (i / STRAND_COUNT) * Math.PI * 6 + Math.PI;
+      const y = (i / STRAND_COUNT) * 6 - 3;
+      pos[i * 3] = Math.cos(t) * 0.8;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = Math.sin(t) * 0.8;
     }
-    return positions;
+    return pos;
+  }, []);
+
+  const connectorPositions = useMemo(() => {
+    const pos = new Float32Array(CONNECTOR_COUNT * 3);
+    for (let i = 0; i < CONNECTOR_COUNT; i++) {
+      const t = (i / CONNECTOR_COUNT) * Math.PI * 6;
+      const y = (i / CONNECTOR_COUNT) * 6 - 3;
+      const lerp = (i % 2 === 0) ? 0.3 : 0.7;
+      const angle1 = t;
+      const angle2 = t + Math.PI;
+      pos[i * 3] = Math.cos(angle1) * 0.8 * (1 - lerp) + Math.cos(angle2) * 0.8 * lerp;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = Math.sin(angle1) * 0.8 * (1 - lerp) + Math.sin(angle2) * 0.8 * lerp;
+    }
+    return pos;
+  }, []);
+
+  const glowPositions = useMemo(() => {
+    const pos = new Float32Array(GLOW_COUNT * 3);
+    for (let i = 0; i < GLOW_COUNT; i++) {
+      const t = (i / GLOW_COUNT) * Math.PI * 6;
+      const y = (i / GLOW_COUNT) * 6 - 3;
+      const radius = 1.2 + Math.sin(i * 0.4) * 0.3;
+      pos[i * 3] = Math.cos(t * 0.7) * radius;
+      pos[i * 3 + 1] = y + Math.sin(i * 0.2) * 0.15;
+      pos[i * 3 + 2] = Math.sin(t * 0.7) * radius;
+    }
+    return pos;
   }, []);
 
   useFrame((state) => {
     const elapsed = state.clock.getElapsedTime();
-    const mouseX = mouse.current.x;
-    const mouseY = mouse.current.y;
+    const mx = mouse.current.x;
+    const my = mouse.current.y;
 
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = elapsed * 0.18;
-      pointsRef.current.rotation.x = Math.sin(elapsed * 0.6) * 0.16 + mouseY * 0.08;
-      pointsRef.current.rotation.z += (mouseX * 0.22 - pointsRef.current.rotation.z) * 0.04;
-      pointsRef.current.position.y = Math.sin(elapsed * 0.8) * 0.06;
+    if (groupRef.current) {
+      groupRef.current.rotation.y = elapsed * 0.15 + mx * 0.3;
+      groupRef.current.rotation.x = Math.sin(elapsed * 0.3) * 0.1 + my * 0.15;
+      groupRef.current.rotation.z = Math.sin(elapsed * 0.2) * 0.05;
     }
 
-    if (haloRef.current) {
-      haloRef.current.rotation.y = -elapsed * 0.12;
-      haloRef.current.rotation.x = Math.cos(elapsed * 0.42) * 0.12;
-      haloRef.current.rotation.z += (mouseX * 0.14 - haloRef.current.rotation.z) * 0.03;
+    // Animate strand positions for breathing effect
+    if (strand1Ref.current) {
+      const geo = strand1Ref.current.geometry;
+      const posAttr = geo.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < STRAND_COUNT; i++) {
+        const t = (i / STRAND_COUNT) * Math.PI * 6;
+        const y = (i / STRAND_COUNT) * 6 - 3;
+        const breathe = 0.8 + Math.sin(elapsed * 1.5 + y * 0.8) * 0.12;
+        posAttr.setXYZ(
+          i,
+          Math.cos(t + elapsed * 0.3) * breathe,
+          y,
+          Math.sin(t + elapsed * 0.3) * breathe
+        );
+      }
+      posAttr.needsUpdate = true;
     }
 
-    if (ringGroupRef.current) {
-      ringGroupRef.current.rotation.y = elapsed * 0.28;
-      ringGroupRef.current.rotation.x = Math.sin(elapsed * 0.32) * 0.18 + mouseY * 0.12;
-      ringGroupRef.current.position.x += (mouseX * 0.18 - ringGroupRef.current.position.x) * 0.05;
-      ringGroupRef.current.position.y += (mouseY * 0.16 - ringGroupRef.current.position.y) * 0.05;
+    if (strand2Ref.current) {
+      const geo = strand2Ref.current.geometry;
+      const posAttr = geo.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < STRAND_COUNT; i++) {
+        const t = (i / STRAND_COUNT) * Math.PI * 6 + Math.PI;
+        const y = (i / STRAND_COUNT) * 6 - 3;
+        const breathe = 0.8 + Math.sin(elapsed * 1.5 + y * 0.8) * 0.12;
+        posAttr.setXYZ(
+          i,
+          Math.cos(t + elapsed * 0.3) * breathe,
+          y,
+          Math.sin(t + elapsed * 0.3) * breathe
+        );
+      }
+      posAttr.needsUpdate = true;
     }
   });
 
   return (
-    <group>
-      <group ref={ringGroupRef}>
-        <mesh rotation={[0.9, 0.2, 0.1]}>
-          <torusGeometry args={[1.78, 0.016, 32, 220]} />
-          <meshBasicMaterial color="#2563eb" transparent opacity={0.75} />
-        </mesh>
-        <mesh rotation={[0.2, 1.1, 0.7]}>
-          <torusGeometry args={[1.34, 0.02, 32, 220]} />
-          <meshBasicMaterial color="#38bdf8" transparent opacity={0.48} />
-        </mesh>
-        <mesh rotation={[1.45, 0.4, 1.3]}>
-          <torusGeometry args={[0.98, 0.018, 32, 220]} />
-          <meshBasicMaterial color="#0f172a" transparent opacity={0.22} />
-        </mesh>
-      </group>
-
-      <points ref={pointsRef}>
+    <group ref={groupRef}>
+      <points ref={strand1Ref}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" count={corePositions.length / 3} array={corePositions} itemSize={3} />
+          <bufferAttribute attach="attributes-position" count={STRAND_COUNT} array={strand1Positions} itemSize={3} />
         </bufferGeometry>
         <pointsMaterial
-          color="#0f172a"
-          size={0.028}
+          color="#2563eb"
+          size={0.035}
           transparent
-          opacity={0.92}
+          opacity={0.9}
           sizeAttenuation
           depthWrite={false}
         />
       </points>
 
-      <points ref={haloRef}>
+      <points ref={strand2Ref}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" count={haloPositions.length / 3} array={haloPositions} itemSize={3} />
+          <bufferAttribute attach="attributes-position" count={STRAND_COUNT} array={strand2Positions} itemSize={3} />
         </bufferGeometry>
         <pointsMaterial
           color="#38bdf8"
-          size={0.018}
+          size={0.035}
           transparent
-          opacity={0.35}
+          opacity={0.9}
+          sizeAttenuation
+          depthWrite={false}
+        />
+      </points>
+
+      <points ref={connectorsRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={CONNECTOR_COUNT} array={connectorPositions} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial
+          color="#7dd3fc"
+          size={0.022}
+          transparent
+          opacity={0.5}
+          sizeAttenuation
+          depthWrite={false}
+        />
+      </points>
+
+      <points ref={glowRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={GLOW_COUNT} array={glowPositions} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial
+          color="#bae6fd"
+          size={0.015}
+          transparent
+          opacity={0.2}
           sizeAttenuation
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </points>
-
-      <mesh scale={1.18}>
-        <sphereGeometry args={[0.94, 48, 48]} />
-        <meshBasicMaterial color="#dbeafe" transparent opacity={0.08} wireframe />
-      </mesh>
     </group>
   );
 }
@@ -130,7 +192,7 @@ export default function ParticleGlobe() {
         <ambientLight intensity={1.1} />
         <pointLight position={[2.4, 2.8, 3.1]} intensity={12} color="#e0f2fe" />
         <pointLight position={[-2.6, -1.4, 2.4]} intensity={4.5} color="#2563eb" />
-        <ParticleField mouse={mouse} />
+        <HelixRibbon mouse={mouse} />
       </Canvas>
     </div>
   );

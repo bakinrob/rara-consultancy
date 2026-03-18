@@ -2,7 +2,7 @@ import { founder } from '@/content/homeContent';
 
 export default function FounderSection() {
   return (
-    <section className="bg-[#eef3fb] px-6 py-24 text-slate-950">
+    <section className="bg-[#f8fafc] px-6 py-24 text-slate-950">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(148,163,184,0.16)]">
           <img src={founder.image} alt={founder.name} className="h-full w-full object-cover" loading="lazy" />

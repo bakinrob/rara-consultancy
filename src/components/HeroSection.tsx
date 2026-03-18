@@ -116,14 +116,15 @@ export default function HeroSection() {
           </p>
 
           <h1 className="mt-6 font-display text-[clamp(3.25rem,7vw,7rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-balance">
-            <ScrambleText text="Build the website." delay={350} />
+            <ScrambleText text="Build your company." delay={350} />
             <br />
-            <ScrambleText text="Engineer the system." delay={700} className="text-gradient-ink" />
+            <ScrambleText text="We automate it." delay={700} className="text-gradient-ink" />
+            <br />
+            <ScrambleText text="We engineer it." delay={1050} className="text-gradient-ink" />
           </h1>
 
           <p className="hero-copy mt-8 max-w-2xl text-[clamp(1.05rem,1.2vw,1.3rem)] leading-8 text-slate-600">
-            AI automations for real businesses, paired with front ends and brand systems that make the whole thing
-            feel premium to the client on the other side.
+            AI-powered automations paired with premium websites and brand systems — built for ambitious small businesses ready to scale.
           </p>
 
           <div className="hero-cta mt-10 flex flex-col gap-4 sm:flex-row">
