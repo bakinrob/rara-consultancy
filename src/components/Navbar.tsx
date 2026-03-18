@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import raraLogo from '@/assets/rara-logo.png';
 
 const navLinks = [
   { label: 'Services', href: '#services' },
