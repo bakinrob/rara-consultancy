@@ -5,7 +5,7 @@ import raraLogo from '@/assets/rara-logo.png';
 
 const navLinks = [
   { label: 'Services', href: '#services' },
-  
+  { label: 'What We Build', href: '#work' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -34,14 +34,13 @@ export default function Navbar() {
             <div
               className={cn(
                 'absolute -inset-3 rounded-[1.75rem] transition-all duration-500 blur-xl',
-                scrolled ? 'bg-primary/18 group-hover:bg-primary/28' : 'bg-slate-950/0 group-hover:bg-slate-950/10'
+                scrolled ? 'bg-primary/18 group-hover:bg-primary/28' : 'bg-white/0 group-hover:bg-white/10'
               )}
             />
             <img
               src={raraLogo}
               alt="Rara Consultancy"
-              className="relative h-12 md:h-16 w-auto"
-              style={{ mixBlendMode: scrolled ? 'normal' : 'difference' }}
+              className="relative h-12 md:h-16 w-auto brightness-0 invert"
             />
           </a>
 
@@ -51,22 +50,14 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className={cn(
-                  'text-sm font-semibold transition-colors duration-300 tracking-[0.2em] uppercase',
-                  scrolled ? 'text-white/72 hover:text-white' : 'text-slate-700 hover:text-slate-950'
-                )}
+                className="text-sm font-semibold transition-colors duration-300 tracking-[0.2em] uppercase text-white/72 hover:text-white"
               >
                 {link.label}
               </a>
             ))}
             <a
               href="#contact"
-              className={cn(
-                'px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300',
-                scrolled
-                  ? 'bg-white text-slate-950 hover:bg-slate-100'
-                  : 'bg-slate-950 text-white hover:bg-slate-800 shadow-[0_16px_40px_rgba(15,23,42,0.16)]'
-              )}
+              className="liquid-glass px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.03]"
             >
               See What To Automate
             </a>
@@ -74,7 +65,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className={cn('md:hidden transition-colors', scrolled ? 'text-white' : 'text-slate-950')}
+            className="md:hidden text-white transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -92,7 +83,7 @@ export default function Navbar() {
         <img
           src={raraLogo}
           alt="Rara Consultancy"
-          className="h-16 w-auto mb-8"
+          className="h-16 w-auto brightness-0 invert mb-8"
         />
         {navLinks.map((link) => (
           <a
@@ -107,7 +98,7 @@ export default function Navbar() {
         <a
           href="#contact"
           onClick={() => setMobileOpen(false)}
-          className="mt-4 px-8 py-3 rounded-full bg-white text-slate-950 text-lg font-semibold"
+          className="mt-4 liquid-glass px-8 py-3 rounded-full text-white text-lg font-semibold"
         >
           See What To Automate
         </a>
