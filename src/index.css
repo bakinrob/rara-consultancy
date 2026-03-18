@@ -88,6 +88,10 @@
     background-clip: text;
   }
 
+  .font-display-serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+  }
+
   .glass-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
