@@ -58,24 +58,23 @@ export default function PortfolioSection() {
               className="portfolio-card group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(148,163,184,0.18)]"
               style={{ gridColumn: index === 0 ? 'span 2' : undefined }}
             >
-              <div className="relative h-72 overflow-hidden md:h-80">
+              <div className="relative h-56 overflow-hidden md:h-64">
                 <img
                   src={project.image}
                   alt={project.title}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/78 via-slate-900/12 to-transparent" />
               </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-200/85">{project.category}</p>
-                <div className="mt-3 flex items-center gap-2">
-                  <h3 className="text-2xl font-semibold tracking-[-0.03em]">{project.title}</h3>
-                  <ArrowUpRight className="h-5 w-5 text-sky-200 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <div className="p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{project.category}</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold tracking-[-0.03em] text-slate-900">{project.title}</h3>
+                  <ArrowUpRight className="h-5 w-5 text-slate-400 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </div>
-                <p className="mt-3 max-w-xl text-sm leading-7 text-white/78">{project.description}</p>
-                <p className="mt-3 max-w-xl text-sm leading-7 text-sky-100/72">{project.detail}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{project.description}</p>
+                <p className="mt-1 text-sm leading-6 text-slate-400">{project.detail}</p>
               </div>
             </article>
           ))}
