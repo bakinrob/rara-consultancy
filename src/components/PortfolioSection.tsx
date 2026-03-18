@@ -11,31 +11,31 @@ const projects = [
     title: 'Atrium',
     category: 'Full Rebrand & Web Design',
     description: 'Complete brand overhaul — logo, guidelines, and a premium digital presence for a forward-thinking firm.',
-    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/e18ce614-be0a-4c24-b0c3-3b9e1bcf47dc/4.png',
+    image: projectAtrium,
   },
   {
     title: 'Eskin Science',
     category: 'Web Design & Platform',
     description: 'Clean, scientific branding meets modern web experience for a skincare science brand.',
-    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/8bc4e93f-dde1-4c42-a2fa-cff2a6b82b7b/2.png',
+    image: projectEskin,
   },
   {
     title: 'Big Dip Burgers',
     category: 'Web Design & Branding',
     description: 'Bold identity and web design for a bold burger brand — from logo to launch.',
-    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/ba57e5e2-3fad-4aa3-a7f2-cf52dfc8fc61/3.png',
+    image: projectBigdip,
   },
   {
     title: 'A2 Second Helpings',
     category: 'Web Design',
     description: 'A warm, community-driven web presence for a nonprofit fighting food insecurity.',
-    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/0c2d19b1-69ed-47a3-adf3-69c973e6d7a9/1.png',
+    image: projectA2,
   },
   {
     title: 'Detroit Soccer District',
     category: 'Web Design & Platform',
     description: 'Dynamic online hub for Detroit\'s growing soccer community — schedules, leagues, and more.',
-    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/8f28b6d4-3fcf-4c3a-bf23-0fc66e4c8c30/5.png',
+    image: projectDetroit,
   },
 ];
 
