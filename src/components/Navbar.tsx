@@ -5,7 +5,7 @@ import raraLogo from '@/assets/rara-logo.png';
 
 const navLinks = [
   { label: 'Services', href: '#services' },
-  { label: 'Our Work', href: '#work' },
+  
   { label: 'Contact', href: '#contact' },
 ];
 

@@ -60,9 +60,7 @@
     font-family: 'Manrope', system-ui, sans-serif;
     overflow-x: hidden;
     text-rendering: optimizeLegibility;
-    background:
-      radial-gradient(circle at top left, rgba(56, 189, 248, 0.09), transparent 22%),
-      linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    background: #ffffff;
   }
 
   a,

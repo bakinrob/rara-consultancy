@@ -34,14 +34,14 @@ export default function TestimonialsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-slate-950 px-6 py-32 text-white">
+    <section ref={sectionRef} className="bg-white px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="testimonial-heading mb-16 max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-sky-300/70">Reviews</p>
-          <h2 className="mt-5 font-display text-[clamp(2.4rem,4vw,4.1rem)] leading-[0.95] tracking-[-0.04em]">
-            Public proof,
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-sky-600">Customer happiness</p>
+          <h2 className="mt-5 font-display text-[clamp(2.4rem,4vw,4.1rem)] leading-[0.95] tracking-[-0.04em] text-slate-900">
+            What our clients say.
             <br />
-            <span className="text-white/64">not generic agency filler.</span>
+            <span className="text-slate-400">Real words, real results.</span>
           </h2>
         </div>
 
@@ -49,17 +49,17 @@ export default function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <article
               key={testimonial.name}
-              className="testimonial-card rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur"
+              className="testimonial-card rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 shadow-[0_8px_40px_rgba(148,163,184,0.1)] transition-shadow duration-500 hover:shadow-[0_16px_60px_rgba(148,163,184,0.18)]"
             >
-              <div className="flex gap-1 text-sky-300">
+              <div className="flex gap-1 text-amber-400">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star key={index} className="h-4 w-4 fill-current" />
                 ))}
               </div>
-              <p className="mt-6 text-lg leading-8 text-white/84">“{testimonial.quote}”</p>
-              <div className="mt-8 border-t border-white/10 pt-5">
-                <p className="font-semibold text-white">{testimonial.name}</p>
-                <p className="mt-1 text-sm uppercase tracking-[0.2em] text-white/45">{testimonial.role}</p>
+              <p className="mt-6 text-lg leading-8 text-slate-600">"{testimonial.quote}"</p>
+              <div className="mt-8 border-t border-slate-100 pt-5">
+                <p className="font-semibold text-slate-900">{testimonial.name}</p>
+                <p className="mt-1 text-sm uppercase tracking-[0.2em] text-slate-400">{testimonial.role}</p>
               </div>
             </article>
           ))}

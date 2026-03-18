@@ -124,8 +124,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-copy mt-8 max-w-2xl text-[clamp(1.05rem,1.2vw,1.3rem)] leading-8 text-slate-600">
-            AI automations for real businesses, paired with front ends and brand systems that make the whole thing
-            feel premium to the client on the other side.
+            AI-powered automations paired with premium websites and brand systems — built for ambitious small businesses ready to scale.
           </p>
 
           <div className="hero-cta mt-10 flex flex-col gap-4 sm:flex-row">
