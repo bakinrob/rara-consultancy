@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Mail, ArrowRight } from 'lucide-react';
+import raraLogo from '@/assets/rara-logo.png';
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -18,10 +19,7 @@ export default function ContactSection() {
         duration: 1,
         ease: 'power3.out',
         stagger: 0.15,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-        },
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
       });
     };
 
@@ -47,7 +45,7 @@ export default function ContactSection() {
 
           <div className="contact-text mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="mailto:hello@raraconsultancy.com"
+              href="mailto:raaghavsaxena500@gmail.com"
               className="group flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold text-lg transition-all duration-300 hover:shadow-[0_0_40px_hsl(217,91%,60%/0.4)]"
             >
               <Mail className="w-5 h-5" />
@@ -60,7 +58,7 @@ export default function ContactSection() {
 
       {/* Footer */}
       <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-        <span className="font-bold tracking-[0.2em] uppercase text-foreground">RARA</span>
+        <img src={raraLogo} alt="Rara" className="h-8 w-auto" style={{ mixBlendMode: 'lighten' }} />
         <span>© {new Date().getFullYear()} Rara Consultancy. All rights reserved.</span>
       </div>
     </section>

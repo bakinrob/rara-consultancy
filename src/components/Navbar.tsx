@@ -28,8 +28,14 @@ export default function Navbar() {
         )}
       >
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="#" className="flex items-center">
-            <img src={raraLogo} alt="Rara Consultancy" className="h-10 w-auto" />
+          <a href="#" className="group relative flex items-center">
+            <div className="absolute -inset-3 rounded-2xl bg-primary/0 group-hover:bg-primary/10 transition-all duration-500 blur-xl" />
+            <img
+              src={raraLogo}
+              alt="Rara Consultancy"
+              className="relative h-12 md:h-14 w-auto"
+              style={{ mixBlendMode: 'lighten' }}
+            />
           </a>
 
           {/* Desktop */}
@@ -68,6 +74,12 @@ export default function Navbar() {
           mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
       >
+        <img
+          src={raraLogo}
+          alt="Rara Consultancy"
+          className="h-16 w-auto mb-8"
+          style={{ mixBlendMode: 'lighten' }}
+        />
         {navLinks.map((link) => (
           <a
             key={link.label}
