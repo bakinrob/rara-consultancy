@@ -83,7 +83,7 @@ export default function ParticleGlobe() {
       onMouseMove={handleMouseMove}
     >
       <Canvas
-        camera={{ position: [0, 0, 6], fov: 45 }}
+        camera={{ position: [0, 0, 6] as [number, number, number], fov: 45 }}
         dpr={[1, 1.5]}
         style={{ background: 'transparent' }}
       >
