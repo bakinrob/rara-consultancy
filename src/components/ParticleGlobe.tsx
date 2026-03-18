@@ -2,9 +2,41 @@ import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+function ConstellationLines({ positions, count }: { positions: Float32Array; count: number }) {
+  const lineRef = useRef<THREE.LineSegments>(null!);
+  const threshold = 0.6;
+
+  const lineGeometry = useMemo(() => {
+    const pairs: number[] = [];
+    for (let i = 0; i < count; i++) {
+      for (let j = i + 1; j < count; j++) {
+        const dx = positions[i * 3] - positions[j * 3];
+        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < threshold && pairs.length < 600) {
+          pairs.push(
+            positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+            positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+          );
+        }
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pairs, 3));
+    return geo;
+  }, [positions, count]);
+
+  return (
+    <lineSegments ref={lineRef} geometry={lineGeometry}>
+      <lineBasicMaterial color="#3B82F6" transparent opacity={0.12} />
+    </lineSegments>
+  );
+}
+
 function Particles({ count = 2500, mouse }: { count?: number; mouse: React.MutableRefObject<{ x: number; y: number }> }) {
   const mesh = useRef<THREE.Points>(null!);
-  const scrollSpeed = useRef(0);
+  const materialRef = useRef<THREE.PointsMaterial>(null!);
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -19,19 +51,18 @@ function Particles({ count = 2500, mouse }: { count?: number; mouse: React.Mutab
     return pos;
   }, [count]);
 
-  const sizes = useMemo(() => {
-    const s = new Float32Array(count);
-    for (let i = 0; i < count; i++) {
-      s[i] = Math.random() * 2 + 0.5;
-    }
-    return s;
-  }, [count]);
-
   useFrame((state) => {
     if (!mesh.current) return;
     const t = state.clock.getElapsedTime();
     mesh.current.rotation.y = t * 0.05;
     mesh.current.rotation.x = Math.sin(t * 0.03) * 0.1;
+
+    // Breathing effect
+    const breathe = 1 + Math.sin(t * 1.5) * 0.15;
+    if (materialRef.current) {
+      materialRef.current.size = 0.02 * breathe;
+      materialRef.current.opacity = 0.6 + Math.sin(t * 1.5) * 0.2;
+    }
 
     // Mouse influence
     const targetX = mouse.current.y * 0.3;
@@ -41,31 +72,24 @@ function Particles({ count = 2500, mouse }: { count?: number; mouse: React.Mutab
   });
 
   return (
-    <points ref={mesh}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
+    <group>
+      <points ref={mesh}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial
+          ref={materialRef}
+          size={0.02}
+          color="#3B82F6"
+          transparent
+          opacity={0.8}
+          sizeAttenuation
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
         />
-        <bufferAttribute
-          attach="attributes-size"
-          count={count}
-          array={sizes}
-          itemSize={1}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.02}
-        color="#3B82F6"
-        transparent
-        opacity={0.8}
-        sizeAttenuation
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
+      </points>
+      <ConstellationLines positions={positions} count={count} />
+    </group>
   );
 }
 
@@ -78,10 +102,7 @@ export default function ParticleGlobe() {
   };
 
   return (
-    <div
-      className="absolute inset-0 z-0"
-      onMouseMove={handleMouseMove}
-    >
+    <div className="absolute inset-0 z-0" onMouseMove={handleMouseMove}>
       <Canvas
         camera={{ position: [0, 0, 6] as [number, number, number], fov: 45 }}
         dpr={[1, 1.5]}

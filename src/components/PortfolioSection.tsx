@@ -4,21 +4,33 @@ import { ArrowUpRight } from 'lucide-react';
 const projects = [
   {
     title: 'Atrium',
-    category: 'Web Design & Branding',
-    description: 'A premium digital presence for a forward-thinking firm.',
-    color: 'from-primary/20 to-accent/10',
+    category: 'Full Rebrand & Web Design',
+    description: 'Complete brand overhaul — logo, guidelines, and a premium digital presence for a forward-thinking firm.',
+    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/e18ce614-be0a-4c24-b0c3-3b9e1bcf47dc/4.png',
   },
   {
     title: 'Eskin Science',
     category: 'Web Design & Platform',
-    description: 'Clean, scientific branding meets modern web experience.',
-    color: 'from-accent/20 to-primary/10',
+    description: 'Clean, scientific branding meets modern web experience for a skincare science brand.',
+    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/8bc4e93f-dde1-4c42-a2fa-cff2a6b82b7b/2.png',
   },
   {
     title: 'Big Dip Burgers',
     category: 'Web Design & Branding',
-    description: 'Bold identity and web design for a bold burger brand.',
-    color: 'from-primary/15 to-accent/15',
+    description: 'Bold identity and web design for a bold burger brand — from logo to launch.',
+    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/ba57e5e2-3fad-4aa3-a7f2-cf52dfc8fc61/3.png',
+  },
+  {
+    title: 'A2 Second Helpings',
+    category: 'Web Design',
+    description: 'A warm, community-driven web presence for a nonprofit fighting food insecurity.',
+    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/0c2d19b1-69ed-47a3-adf3-69c973e6d7a9/1.png',
+  },
+  {
+    title: 'Detroit Soccer District',
+    category: 'Web Design & Platform',
+    description: 'Dynamic online hub for Detroit\'s growing soccer community — schedules, leagues, and more.',
+    image: 'https://images.squarespace-cdn.com/content/v1/66de9b05cf0c710417de4900/8f28b6d4-3fcf-4c3a-bf23-0fc66e4c8c30/5.png',
   },
 ];
 
@@ -41,10 +53,7 @@ export default function PortfolioSection() {
         opacity: 0,
         duration: 1,
         ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.portfolio-title',
-          start: 'top 85%',
-        },
+        scrollTrigger: { trigger: '.portfolio-title', start: 'top 85%' },
       });
 
       const cards = sectionRef.current.querySelectorAll('.portfolio-card');
@@ -54,10 +63,7 @@ export default function PortfolioSection() {
           opacity: 0,
           duration: 1,
           ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-          },
+          scrollTrigger: { trigger: card, start: 'top 85%' },
         });
       });
     };
@@ -79,17 +85,21 @@ export default function PortfolioSection() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <div
               key={project.title}
               className="portfolio-card group relative glass-card rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-2 transition-all duration-500"
             >
-              {/* Gradient preview area */}
-              <div className={`h-48 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
-                <span className="text-4xl font-black text-foreground/20 group-hover:text-foreground/40 transition-colors duration-500 tracking-tight">
-                  {project.title}
-                </span>
+              {/* Image with zoom + overlay reveal */}
+              <div className="relative h-52 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-background/60 group-hover:bg-transparent transition-colors duration-500" />
               </div>
 
               <div className="p-6">

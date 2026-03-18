@@ -1,23 +1,65 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { ChevronDown } from 'lucide-react';
 import ParticleGlobe from './ParticleGlobe';
+
+function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [display, setDisplay] = useState(text.replace(/[^ ]/g, ' '));
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&';
+
+  useEffect(() => {
+    let frame: number;
+    const timeout = setTimeout(() => {
+      let iteration = 0;
+      const maxIterations = text.length * 3;
+
+      const scramble = () => {
+        const progress = iteration / maxIterations;
+        const resolved = Math.floor(progress * text.length);
+
+        setDisplay(
+          text
+            .split('')
+            .map((char, i) => {
+              if (char === ' ') return ' ';
+              if (i < resolved) return char;
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join('')
+        );
+
+        iteration++;
+        if (iteration <= maxIterations) {
+          frame = requestAnimationFrame(scramble);
+        } else {
+          setDisplay(text);
+        }
+      };
+      frame = requestAnimationFrame(scramble);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(frame);
+    };
+  }, [text, delay]);
+
+  return <>{display}</>;
+}
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let gsapModule: any;
     let scrollTriggerModule: any;
 
     const init = async () => {
       const gsap = (await import('gsap')).default;
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
       gsap.registerPlugin(ScrollTrigger);
-      gsapModule = gsap;
       scrollTriggerModule = ScrollTrigger;
 
       if (!heroRef.current) return;
 
-      // Hero scale-down on scroll
       gsap.to(heroRef.current, {
         scale: 0.75,
         opacity: 0,
@@ -30,7 +72,6 @@ export default function HeroSection() {
         },
       });
 
-      // Text stagger animation
       gsap.from('.hero-text-line', {
         y: 80,
         opacity: 0,
@@ -40,7 +81,6 @@ export default function HeroSection() {
         delay: 0.3,
       });
 
-      // CTA fade in
       gsap.from('.hero-cta', {
         y: 30,
         opacity: 0,
@@ -51,10 +91,7 @@ export default function HeroSection() {
     };
 
     init();
-
-    return () => {
-      scrollTriggerModule?.getAll().forEach((t: any) => t.kill());
-    };
+    return () => scrollTriggerModule?.getAll().forEach((t: any) => t.kill());
   }, []);
 
   return (
@@ -74,12 +111,12 @@ export default function HeroSection() {
 
         <div className="overflow-hidden">
           <h1 className="hero-text-line text-[clamp(2rem,6vw,5rem)] font-black leading-[1.05] tracking-tight text-foreground">
-            You run your business.
+            <ScrambleText text="You run your business." delay={600} />
           </h1>
         </div>
         <div className="overflow-hidden">
           <h1 className="hero-text-line text-[clamp(2rem,6vw,5rem)] font-black leading-[1.05] tracking-tight text-gradient-primary">
-            We automate everything else.
+            <ScrambleText text="We automate everything else." delay={900} />
           </h1>
         </div>
 
@@ -106,10 +143,10 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - animated chevron */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
         <span className="text-xs text-muted-foreground tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-muted-foreground to-transparent" />
+        <ChevronDown className="w-5 h-5 text-muted-foreground animate-bounce" />
       </div>
     </section>
   );

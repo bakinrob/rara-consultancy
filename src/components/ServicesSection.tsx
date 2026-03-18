@@ -37,18 +37,13 @@ export default function ServicesSection() {
       if (!sectionRef.current) return;
 
       const cards = sectionRef.current.querySelectorAll('.service-card');
-      cards.forEach((card, i) => {
+      cards.forEach((card) => {
         gsap.from(card, {
           x: 120,
           opacity: 0,
           duration: 1,
           ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            end: 'top 50%',
-            scrub: 1,
-          },
+          scrollTrigger: { trigger: card, start: 'top 85%', end: 'top 50%', scrub: 1 },
         });
       });
 
@@ -57,10 +52,7 @@ export default function ServicesSection() {
         opacity: 0,
         duration: 1,
         ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.services-title',
-          start: 'top 85%',
-        },
+        scrollTrigger: { trigger: '.services-title', start: 'top 85%' },
       });
     };
 
@@ -68,12 +60,24 @@ export default function ServicesSection() {
     return () => scrollTriggerModule?.getAll().forEach((t: any) => t.kill());
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0)';
+  };
+
   return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="relative py-32 px-6"
-    >
+    <section id="services" ref={sectionRef} className="relative py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20">
           <p className="services-title text-sm font-medium tracking-[0.3em] uppercase text-primary mb-4">
@@ -86,29 +90,24 @@ export default function ServicesSection() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service, i) => (
+          {services.map((service) => (
             <div
               key={service.title}
-              className="service-card group glass-card rounded-2xl p-8 hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
+              className="service-card group glass-card rounded-2xl p-8 transition-all duration-300 cursor-pointer border border-transparent hover:border-primary/30"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              style={{ willChange: 'transform' }}
             >
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
                 <service.icon className="w-7 h-7 text-primary" />
               </div>
 
-              <h3 className="text-xl font-bold text-foreground mb-3">
-                {service.title}
-              </h3>
-
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                {service.description}
-              </p>
+              <h3 className="text-xl font-bold text-foreground mb-3">{service.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{service.description}</p>
 
               <div className="flex flex-wrap gap-2">
                 {service.features.map((feature) => (
-                  <span
-                    key={feature}
-                    className="text-xs px-3 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium"
-                  >
+                  <span key={feature} className="text-xs px-3 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium">
                     {feature}
                   </span>
                 ))}
