@@ -1,32 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { Globe, Cpu, LayoutDashboard } from 'lucide-react';
-
-const services = [
-  {
-    icon: Globe,
-    title: 'Web Design & Branding',
-    description: 'Custom websites, redesigns, and visual identity that makes your brand impossible to ignore.',
-    features: ['Custom Websites', 'Brand Identity', 'UI/UX Design', 'Responsive Design'],
-  },
-  {
-    icon: Cpu,
-    title: 'AI Automations',
-    description: 'From booking systems to phone automation — we eliminate the manual work that slows you down.',
-    features: ['Booking Systems', 'Phone Automation', 'Workflow Automation', 'Data Scraping'],
-  },
-  {
-    icon: LayoutDashboard,
-    title: 'Custom Platforms',
-    description: 'Course platforms, client portals, dashboards — built exactly the way your business needs them.',
-    features: ['Course Platforms', 'Client Portals', 'Dashboards', 'Custom Tools'],
-  },
-];
+import { services } from '@/content/homeContent';
 
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let scrollTriggerModule: any;
+    let scrollTriggerModule: { getAll: () => Array<{ kill: () => void }> } | undefined;
 
     const init = async () => {
       const gsap = (await import('gsap')).default;
@@ -36,83 +15,66 @@ export default function ServicesSection() {
 
       if (!sectionRef.current) return;
 
-      const cards = sectionRef.current.querySelectorAll('.service-card');
-      cards.forEach((card) => {
-        gsap.from(card, {
-          x: 120,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: card, start: 'top 85%', end: 'top 50%', scrub: 1 },
-        });
-      });
-
-      gsap.from('.services-title', {
-        y: 60,
+      gsap.from('.services-heading, .service-panel', {
+        y: 52,
         opacity: 0,
-        duration: 1,
+        duration: 0.95,
         ease: 'power3.out',
-        scrollTrigger: { trigger: '.services-title', start: 'top 85%' },
+        stagger: 0.12,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 72%',
+        },
       });
     };
 
     init();
-    return () => scrollTriggerModule?.getAll().forEach((t: any) => t.kill());
+    return () => scrollTriggerModule?.getAll().forEach((trigger) => trigger.kill());
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -8;
-    const rotateY = ((x - centerX) / centerX) * 8;
-    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0)';
-  };
-
   return (
-    <section id="services" ref={sectionRef} className="relative py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-20">
-          <p className="services-title text-sm font-medium tracking-[0.3em] uppercase text-primary mb-4">
-            What We Do
-          </p>
-          <h2 className="services-title text-[clamp(2rem,4vw,3.5rem)] font-black text-foreground leading-tight">
-            Three ways we<br />
-            <span className="text-gradient-primary">transform your business.</span>
+    <section id="services" ref={sectionRef} className="bg-slate-950 px-6 py-32 text-white">
+      <div className="mx-auto max-w-7xl">
+        <div className="services-heading mb-16 max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-sky-300/70">What we build</p>
+          <h2 className="mt-5 font-display text-[clamp(2.5rem,4.6vw,4.5rem)] leading-[0.95] tracking-[-0.04em]">
+            Automation first.
+            <br />
+            <span className="text-white/66">Everything around it designed to convert.</span>
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service) => (
-            <div
+        <div className="grid gap-6 lg:grid-cols-3">
+          {services.map((service, index) => (
+            <article
               key={service.title}
-              className="service-card group glass-card rounded-2xl p-8 transition-all duration-300 cursor-pointer border border-transparent hover:border-primary/30"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              style={{ willChange: 'transform' }}
+              className="service-panel group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 transition-transform duration-500 hover:-translate-y-2"
             >
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                <service.icon className="w-7 h-7 text-primary" />
+              <div
+                className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background:
+                    index === 0
+                      ? 'radial-gradient(circle at top right, rgba(56,189,248,0.18), transparent 40%)'
+                      : index === 1
+                        ? 'radial-gradient(circle at top right, rgba(250,245,255,0.1), transparent 40%)'
+                        : 'radial-gradient(circle at top right, rgba(37,99,235,0.16), transparent 40%)',
+                }}
+              />
+              <div className="relative">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/35">{service.eyebrow}</p>
+                <h3 className="mt-6 text-2xl font-semibold tracking-[-0.03em] text-white">{service.title}</h3>
+                <p className="mt-4 text-base leading-8 text-white/68">{service.description}</p>
+                <ul className="mt-8 space-y-3 border-t border-white/10 pt-6 text-sm text-white/72">
+                  {service.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-center gap-3">
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-300" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <h3 className="text-xl font-bold text-foreground mb-3">{service.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{service.description}</p>
-
-              <div className="flex flex-wrap gap-2">
-                {service.features.map((feature) => (
-                  <span key={feature} className="text-xs px-3 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium">
-                    {feature}
-                  </span>
-                ))}
-              </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

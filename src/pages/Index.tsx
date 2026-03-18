@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
+import ProofStrip from '@/components/ProofStrip';
 import ServicesSection from '@/components/ServicesSection';
 import PortfolioSection from '@/components/PortfolioSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import FounderSection from '@/components/FounderSection';
 import ContactSection from '@/components/ContactSection';
 
 const Index = () => {
   useEffect(() => {
-    let lenis: any;
+    let lenis:
+      | {
+          raf: (time: number) => void;
+          destroy: () => void;
+        }
+      | undefined;
 
     const init = async () => {
       const Lenis = (await import('lenis')).default;
@@ -32,9 +39,11 @@ const Index = () => {
     <main className="bg-background min-h-screen overflow-x-hidden">
       <Navbar />
       <HeroSection />
+      <ProofStrip />
       <ServicesSection />
       <PortfolioSection />
       <TestimonialsSection />
+      <FounderSection />
       <ContactSection />
     </main>
   );
