@@ -57,7 +57,7 @@ export const projects = [
     title: 'Big Dip Burgers',
     category: 'Website + Branding',
     image: bigDipImage,
-    description: 'A bold restaurant website and brand presence for RARA's first client.',
+    description: 'A bold restaurant website and brand presence for RARA\'s first client.',
     detail: 'Photography-forward, personality-rich, and built to feel local and memorable.',
     url: 'https://bigdipburgers.com',
   },
