@@ -155,6 +155,144 @@
   .animate-fade-rise-delay-2 { animation: fade-rise 0.8s ease-out 0.4s both; }
 }
 
+/* ── Fancy Carousel ── */
+.fancy-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fancy-carousel__slides {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-height: 420px;
+}
+
+@media (min-width: 768px) {
+  .fancy-carousel__slides {
+    min-height: 520px;
+  }
+}
+
+.slide {
+  list-style: none;
+}
+
+.slide-inner {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.slide-bg {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .slide-bg {
+    height: 520px;
+  }
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at calc(50% + var(--x, 0px)) calc(50% + var(--y, 0px)),
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.slide-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.slide-title span {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.slide-button-wrapper {
+  flex-shrink: 0;
+}
+
+.slide-button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slide-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.fancy-carousel__controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.carousel-control:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.carousel-control--previous svg {
+  transform: rotate(180deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
