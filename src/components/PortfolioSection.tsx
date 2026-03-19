@@ -73,9 +73,14 @@ export default function PortfolioSection() {
         scrollTrigger: { trigger: sectionRef.current, start: 'top 72%' },
       });
 
+      const cards = document.querySelectorAll('.portfolio-card');
+      cards.forEach((card) => {
+        gsap.set(card, { opacity: 1 });
+      });
+
       gsap.from('.portfolio-card', {
         y: 60, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
-        scrollTrigger: { trigger: '.portfolio-grid', start: 'top 78%' },
+        scrollTrigger: { trigger: '.portfolio-grid', start: 'top 85%' },
       });
     };
 

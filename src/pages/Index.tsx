@@ -5,7 +5,7 @@ import ProofStrip from '@/components/ProofStrip';
 import ServicesSection from '@/components/ServicesSection';
 import PortfolioSection from '@/components/PortfolioSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import FounderSection from '@/components/FounderSection';
+import TeamSection from '@/components/TeamSection';
 import ContactSection from '@/components/ContactSection';
 
 const Index = () => {
@@ -43,7 +43,7 @@ const Index = () => {
       <ServicesSection />
       <PortfolioSection />
       <TestimonialsSection />
-      <FounderSection />
+      <TeamSection />
       <ContactSection />
     </main>
   );

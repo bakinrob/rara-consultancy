@@ -3,7 +3,9 @@ import eskinImage from '@/assets/rara/eskinscience.jpeg';
 import bigDipImage from '@/assets/rara/bigdip.jpeg';
 import a2Image from '@/assets/rara/a2.jpg';
 import detroitImage from '@/assets/rara/detroit.png';
-import raaghavImage from '@/assets/rara/raaghav.jpg';
+import raaghavImage from '@/assets/rara/raaghav-headshot.png';
+import anthonyImage from '@/assets/rara/anthony-headshot.png';
+import abrahamImage from '@/assets/rara/abraham-headshot.png';
 import reviewsHeroImage from '@/assets/rara/reviews-hero.jpg';
 
 export const stats = [
@@ -106,11 +108,33 @@ export const testimonials = [
   },
 ];
 
+export const team = [
+  {
+    name: 'Raaghav Saxena',
+    role: 'Founder & CEO',
+    image: raaghavImage,
+    bio: 'Raaghav founded RARA with a vision to help businesses compete with bigger players. He leads strategy and ensures every client gets the attention they deserve.',
+  },
+  {
+    name: 'Anthony Jarjosa',
+    role: 'Creative Director',
+    image: anthonyImage,
+    bio: 'Anthony brings brands to life. With an eye for design and a passion for storytelling, he crafts visual identities that make businesses unforgettable.',
+  },
+  {
+    name: 'Abraham El-Chafei',
+    role: 'Co-Founder',
+    image: abrahamImage,
+    bio: 'Abraham builds the AI systems and automation workflows that power RARA\'s client businesses. He ensures every lead is captured, every call is answered, and no opportunity slips through the cracks.',
+  },
+];
+
+// Keep backward compat
 export const founder = {
   name: 'Raaghav Saxena',
   title: 'Founder and CEO',
   image: raaghavImage,
   supportingImage: reviewsHeroImage,
   quote:
-    'I started this group with the goal of helping small businesses following the COVID pandemic. Helping small businesses with marketing and data is one of the best ways to help our community prosper.',
+    'I started this group with the goal of helping businesses grow and compete. Helping businesses with marketing and data is one of the best ways to help our community prosper.',
 };
