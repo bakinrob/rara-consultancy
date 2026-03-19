@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ProofStrip from '@/components/ProofStrip';
-import { TextColorHero } from '@/components/ui/text-color-hero';
 import ServicesSection from '@/components/ServicesSection';
 import PortfolioSection from '@/components/PortfolioSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -41,7 +40,6 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <ProofStrip />
-      <TextColorHero />
       <ServicesSection />
       <PortfolioSection />
       <TestimonialsSection />
