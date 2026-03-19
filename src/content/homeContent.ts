@@ -42,7 +42,8 @@ export const projects = [
     category: 'Full Rebrand',
     image: atriumImage,
     description: 'Logo, website, and supporting brand materials for a restaurant rebrand.',
-    detail: '“We need to rebrand the whole restaurant. We’re switching from Dave and Amy’s to Atrium.”',
+    detail: '"We need to rebrand the whole restaurant. We're switching from Dave and Amy's to Atrium."',
+    url: 'https://atriumwalledlake.com',
   },
   {
     title: 'Emmanuel Skinscience',
@@ -50,13 +51,15 @@ export const projects = [
     image: eskinImage,
     description: '20+ page website and a fully organized ecommerce experience.',
     detail: 'Creative direction, design, and development for a medical spa brand.',
+    url: 'https://emmanuelskinscience.com',
   },
   {
     title: 'Big Dip Burgers',
     category: 'Website + Branding',
     image: bigDipImage,
-    description: 'A bold restaurant website and brand presence for RARA’s first client.',
+    description: 'A bold restaurant website and brand presence for RARA's first client.',
     detail: 'Photography-forward, personality-rich, and built to feel local and memorable.',
+    url: 'https://bigdipburgers.com',
   },
   {
     title: 'A2 Second Helpings',
@@ -64,6 +67,7 @@ export const projects = [
     image: a2Image,
     description: 'Brand and site work supporting a mission-driven nonprofit.',
     detail: 'Focused on communicating the mission with warmth, clarity, and trust.',
+    url: 'https://a2secondhelpings.org',
   },
   {
     title: 'Detroit Soccer District',
@@ -71,6 +75,7 @@ export const projects = [
     image: detroitImage,
     description: 'Social media and branding work that helped grow a local audience.',
     detail: 'Positioned as a dynamic online hub for a growing soccer community.',
+    url: 'https://detroitsoccerdistrict.com',
   },
 ];
 
