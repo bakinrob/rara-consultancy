@@ -8,9 +8,8 @@ import reviewsHeroImage from '@/assets/rara/reviews-hero.jpg';
 
 export const stats = [
   { label: 'Projects delivered', value: '20+' },
-  { label: 'Public five-star reviews', value: '4' },
-  { label: 'Core service lanes', value: '3' },
-  { label: 'Mission', value: 'Small business first' },
+  { label: 'Client satisfaction', value: '100%' },
+  { label: 'Five-star reviews', value: '5 ★' },
 ];
 
 export const services = [
