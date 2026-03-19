@@ -21,8 +21,8 @@ const itemVariants = {
 
 function TeamCard({ member }: { member: (typeof team)[number] }) {
   return (
-    <motion.div variants={itemVariants} className="group relative">
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_8px_40px_rgba(59,130,246,0.08)]">
+    <motion.div variants={itemVariants} className="group relative h-full">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_8px_40px_rgba(59,130,246,0.08)]">
         {/* Avatar */}
         <div className="flex justify-center pt-10 pb-6">
           <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-white/10 transition-all duration-500 group-hover:border-primary/40 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]">
