@@ -41,6 +41,7 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <ProofStrip />
+      <TextColorHero />
       <ServicesSection />
       <PortfolioSection />
       <TestimonialsSection />
