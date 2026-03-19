@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import raraLogo from '@/assets/rara-logo.png';
@@ -11,13 +11,39 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [onDark, setOnDark] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.12);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+  const checkBackground = useCallback(() => {
+    setScrolled(window.scrollY > window.innerHeight * 0.12);
+
+    // Detect if navbar overlaps a dark or light section
+    const navY = 40; // middle of navbar
+    const sections = document.querySelectorAll('section, [data-theme]');
+    let dark = true;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= navY && rect.bottom >= navY) {
+        const bg = window.getComputedStyle(section).backgroundColor;
+        // Parse rgb values to determine lightness
+        const match = bg.match(/\d+/g);
+        if (match) {
+          const [r, g, b] = match.map(Number);
+          const lightness = (r * 299 + g * 587 + b * 114) / 1000;
+          dark = lightness < 128;
+        }
+      }
+    });
+
+    setOnDark(dark);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', checkBackground, { passive: true });
+    checkBackground();
+    return () => window.removeEventListener('scroll', checkBackground);
+  }, [checkBackground]);
 
   return (
     <>
@@ -25,7 +51,9 @@ export default function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled
-            ? 'bg-slate-950/84 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_40px_rgba(2,6,23,0.28)]'
+            ? onDark
+              ? 'bg-slate-950/84 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_40px_rgba(2,6,23,0.28)]'
+              : 'bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.06)]'
             : 'bg-transparent'
         )}
       >
@@ -40,7 +68,10 @@ export default function Navbar() {
             <img
               src={raraLogo}
               alt="Rara Consultancy"
-              className="relative h-12 md:h-16 w-auto brightness-0 invert"
+              className={cn(
+                'relative h-12 md:h-16 w-auto transition-all duration-500',
+                onDark ? 'brightness-0 invert' : 'brightness-0'
+              )}
             />
           </a>
 
@@ -50,14 +81,24 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-semibold transition-colors duration-300 tracking-[0.2em] uppercase text-white/72 hover:text-white"
+                className={cn(
+                  'text-sm font-semibold transition-colors duration-300 tracking-[0.2em] uppercase',
+                  onDark
+                    ? 'text-white/72 hover:text-white'
+                    : 'text-slate-500 hover:text-slate-900'
+                )}
               >
                 {link.label}
               </a>
             ))}
             <a
               href="#contact"
-              className="liquid-glass px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.03]"
+              className={cn(
+                'px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-[1.03]',
+                onDark
+                  ? 'liquid-glass text-white'
+                  : 'bg-slate-900 text-white hover:bg-slate-800'
+              )}
             >
               See What To Automate
             </a>
@@ -65,7 +106,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden text-white transition-colors"
+            className={cn('md:hidden transition-colors', onDark ? 'text-white' : 'text-slate-900')}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}

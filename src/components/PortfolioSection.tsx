@@ -101,23 +101,23 @@ export default function PortfolioSection() {
         </div>
 
         {/* Bento grid */}
-        <div className="portfolio-grid grid gap-5 md:grid-cols-2 lg:grid-cols-5 lg:grid-rows-2 auto-rows-[340px] md:auto-rows-[380px]">
-          {/* Atrium — large, spans 3 cols + 1 row */}
+        <div className="portfolio-grid grid gap-5 md:grid-cols-2 lg:grid-cols-6 auto-rows-[340px] md:auto-rows-[380px]">
+          {/* Atrium — large */}
           <BrowserFrame
             project={projects[0]}
-            className="portfolio-card lg:col-span-3 lg:row-span-1"
+            className="portfolio-card lg:col-span-4"
           />
-          {/* Eskin — right side top */}
+          {/* Eskin */}
           <BrowserFrame
             project={projects[1]}
-            className="portfolio-card lg:col-span-2 lg:row-span-1"
+            className="portfolio-card lg:col-span-2"
           />
           {/* Bottom row: 3 even cards */}
           {projects.slice(2).map((p) => (
             <BrowserFrame
               key={p.title}
               project={p}
-              className="portfolio-card lg:col-span-1 xl:col-span-1"
+              className="portfolio-card lg:col-span-2"
             />
           ))}
         </div>
