@@ -42,7 +42,7 @@ export const projects = [
     category: 'Full Rebrand',
     image: atriumImage,
     description: 'Logo, website, and supporting brand materials for a restaurant rebrand.',
-    detail: '"We need to rebrand the whole restaurant. We're switching from Dave and Amy's to Atrium."',
+    detail: 'We need to rebrand the whole restaurant. We\'re switching from Dave and Amy\'s to Atrium.',
     url: 'https://atriumwalledlake.com',
   },
   {
